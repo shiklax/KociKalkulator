@@ -1,0 +1,234 @@
+﻿@page "/"
+<PageTitle>Kalkulator żywienia kota</PageTitle>
+<head>
+    <link href="KalulatorKota.styles.css" rel="stylesheet" />
+</head>
+<div>
+    <h1>Kalkulator żywienia kota</h1>
+    <div>
+        <label>Masa ciała kota (kg)</label>
+        <input inputmode="numeric" />
+    </div>
+</div>
+<div class="container">
+
+    <div class="box">
+        <table>
+            <tbody>
+                <tr>
+                    <td>Zapotrzebowanie na energię:</td>
+                    <td>kcal/dzień</td>
+                </tr>
+                <tr>
+                    <td>
+                        <MyDropdown Values="@catType" />
+                    </td>
+                    <td>@kcalPerDay</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="box">
+        <table>
+            <tbody>
+                <tr>
+                    <td colspan="2">Dzienna porcja karmy (w gramach)</td>
+                </tr>
+                <tr>
+                    <td>MOKRA</td>
+                    <td><input inputmode="numeric" /></td>
+                </tr>
+                <tr>
+                    <td>SUCHA</td>
+                    <td><input inputmode="numeric" /></td>
+                </tr>
+                <tr>
+                    <td>RAZEM</td>
+                    <td>Placeholder</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="box">
+        <table>
+            <tbody>
+                <tr>
+                    <td colspan="4">Makroskładniki w porcji (g/dzień</td>
+                </tr>
+                <tr>
+                    <td>&nbsp;</td>
+                    <td>mokrej karmy</td>
+                    <td>suchej karmy</td>
+                    <td>razem</td>
+                </tr>
+                <tr>
+                    <td>Białko </td>
+                    <td>Placeholder</td>
+                    <td>Placeholder</td>
+                    <td>Placeholder</td>
+                </tr>
+                <tr>
+                    <td>Tłuszcz</td>
+                    <td>Placeholder</td>
+                    <td>Placeholder</td>
+                    <td>Placeholder</td>
+                </tr>
+                <tr>
+                    <td>Węglowodany</td>
+                    <td>Placeholder</td>
+                    <td>Placeholder</td>
+                    <td>Placeholder</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+
+
+
+<div class="karma">
+    <h1>Karma sucha</h1>
+    <div>
+        <table>
+            <tbody>
+                <tr>
+                    <td>Dane z etykiety</td>
+                    <td>W produkcie (%)</td>
+                    <td>Sucha masa (%)</td>
+                </tr>
+                <tr>
+                    <td>Białko ogólne</td>
+                    <td>Placeholder</td>
+                    <td>Placeholder</td>
+                </tr>
+                <tr>
+                    <td>Tłuszcz surowy</td>
+                    <td>Placeholder</td>
+                    <td>Placeholder</td>
+                </tr>
+                <tr>
+                    <td>Popiół surowy</td>
+                    <td>Placeholder</td>
+                    <td>Placeholder</td>
+                </tr>
+                <tr>
+                    <td>Włókno surowe</td>
+                    <td>Placeholder</td>
+                    <td>Placeholder</td>
+                </tr>
+                <tr>
+                    <td>Wilgotność</td>
+                    <td>Placeholder</td>
+                    <td>Placeholder</td>
+                </tr>
+                <tr>
+                    <td>Węglowodany</td>
+                    <td>Placeholder</td>
+                    <td>Placeholder</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div>
+        <table>
+            <tbody>
+                <tr>
+                    <td colspan="2">Gęstość energetyczna karmy (EM/kcal/100g)</td>
+                </tr>
+                <tr>
+                    <td>Wg zmod. wsp. Atwatera</td>
+                    <td>Placeholder</td>
+                </tr>
+                <tr>
+                    <td>Wg NRC (2006)</td>
+                    <td>Placeholder</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+		
+    
+
+
+
+    <div>
+        <table>
+            <tbody>
+                <tr>
+                    <td>Makroskładnik</td>
+                    <td>g/100 kcal</td>
+                    <td>Poziom w karmie</td>
+                </tr>
+                <tr>
+                    <td>Białko</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>Tłuszcz</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr>
+                    <td>Węglowodany</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+
+
+
+<div class="karma">
+    <h1>Karma mokra</h1>
+</div>
+
+<CartesianChart
+	Series="_series">
+</CartesianChart>
+
+@code {
+    private Dictionary<object, string> catType = new Dictionary<object, string>
+    {
+        { 1, "Mało ruchliwy/z nadwagą" },
+        { 2, "Niewychodzący/sterylizowany" },
+        { 3, "Aktywny lub łysy" }
+    };
+    private string test = "";
+
+    private double bialkoOgolne_Mokra;
+    private double tluszczSurowy_Mokra;
+    private double popilSurowy_Mokra;
+    private double wloknoSurowe_Mokra;
+    private double wilgotność_Mokra;
+
+    private double bialkoOgolne_Sucha;
+    private double tluszczSurowy_Sucha;
+    private double popilSurowy_Sucha;
+    private double wloknoSurowe_Sucha;
+    private double wilgotność_Sucha;
+
+
+
+    double kcalPerDay = 0;
+        private ISeries[] _series = 
+        new ISeries[] 
+        { 
+            new LineSeries<double> 
+            { 
+                Values = new double[] { 2, 1, 3, 5, 3, 4, 6 }, 
+                Fill = null 
+            } 
+        }; 
+}

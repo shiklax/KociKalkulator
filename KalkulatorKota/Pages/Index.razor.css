@@ -1,0 +1,27 @@
+﻿table {
+
+}
+
+td {
+    border: 1px solid black;
+    padding: 5px;
+    text-align: center; /* Centers the text within each cell */
+}
+.container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin: 0px;
+    flex-wrap:wrap;
+}
+.box {
+    border: 1px solid black;
+    text-align: center;
+    padding: 10px;
+    margin-right: 10px; /* Add right margin for spacing between divs */
+    margin-bottom: 10px; /* Add bottom margin for spacing between rows */
+    box-sizing: border-box; /* Include padding and border in the specified width and height */
+}
+.karma {
+    border: 1px solid black;
+}
