@@ -7,7 +7,13 @@
     <h1>Kalkulator żywienia kota</h1>
     <div>
         <label>Masa ciała kota (kg)</label>
-        <input inputmode="numeric" />
+        <Validation UsePattern>
+            <TextEdit Text="@waga_Kota" TextChanged="@OnNameChanged" Pattern="^[0-9]+(?:\.[0-9])?$" MaxLength="4">
+                <Feedback>
+                    <ValidationError>Pattern does not match!</ValidationError>
+                </Feedback>
+            </TextEdit>
+        </Validation>
     </div>
 </div>
 
@@ -20,18 +26,20 @@
             </tr>
             <tr>
                 <td>
-                    <Select @bind-SelectedValue="@selectedValue">
-    <SelectItem Value="1">-- Wybierz jedną opcję --</SelectItem>
-    <SelectItem Value="2">Mało ruchliwy/z nadwagą</SelectItem>
-    <SelectItem Value="3">Niewychodzący/sterylizowany</SelectItem>
-    <SelectItem Value="4">Aktywny lub łysy</SelectItem>
-</Select>
+                    <Select TValue="int" SelectedValue="@selectedValue" SelectedValueChanged="@((int value) => OnSelectedValueChanged(value))">
+                        <SelectItem Value="1">-- Wybierz jedną opcję --</SelectItem>
+                        <SelectItem Value="2">Mało ruchliwy/z nadwagą</SelectItem>
+                        <SelectItem Value="3">Niewychodzący/sterylizowany</SelectItem>
+                        <SelectItem Value="4">Aktywny lub łysy</SelectItem>
+                    </Select>
                 </td>
-                <td>@kcalPerDay</td>
+                <td>@kcalPerDay.ToString("0.0")</td>
             </tr>
         </tbody>
     </table>
-    <p>Selected item @selectedValue</p>
+    <p>waga_Kota @waga_Kota</p>
+    <p>selectedValue @selectedValue</p>
+    <p>kcalPerDay @kcalPerDay</p>
 </div>
 
 <div class="box">
@@ -201,6 +209,8 @@
 
 
 @code {
+    private string waga_Kota;
+
     private double bialkoOgolne_Mokra;
     private double tluszczSurowy_Mokra;
     private double popilSurowy_Mokra;
@@ -214,8 +224,48 @@
     private double wilgotność_Sucha;
 
     int selectedValue;
-
-
     double kcalPerDay = 0;
 
+
+    Task OnSelectedValueChanged(int value)
+    {
+        selectedValue = value;
+        UpdateKcalPerDay();
+
+        return Task.CompletedTask;
+
+    }
+    Task OnNameChanged(string value)
+    {
+        waga_Kota = value;
+        UpdateKcalPerDay();
+        return Task.CompletedTask;
+    }
+
+    Task UpdateKcalPerDay()
+    {
+        if (waga_Kota == "")
+        {
+            kcalPerDay = 0;
+        }
+        else
+        {
+            switch (selectedValue)
+            {
+                case 2:
+                    kcalPerDay = 60 * (Convert.ToDouble(waga_Kota) * 0.67);
+                    break;
+                case 3:
+                    kcalPerDay = 75 * (Convert.ToDouble(waga_Kota) * 0.67);
+                    break;
+                case 4:
+                    kcalPerDay = 100 * (Convert.ToDouble(waga_Kota) * 0.67);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        return Task.CompletedTask;
+    }
 }
