@@ -8,7 +8,7 @@
     <div>
         <label>Masa ciała kota (kg)</label>
         <Validation UsePattern>
-            <TextEdit Text="@waga_Kota" TextChanged="@OnNameChanged" Pattern="^[0-9]+(?:\.[0-9])?$" MaxLength="4">
+            <TextEdit Text="@waga_Kota" TextChanged="@(value => OnNameChanged(value, Input_Types.Waga_Kota))" Pattern="^[0-9]+(?:\,[0-9])?$" MaxLength="4">
                 <Feedback>
                     <ValidationError>Pattern does not match!</ValidationError>
                 </Feedback>
@@ -26,7 +26,7 @@
             </tr>
             <tr>
                 <td>
-                    <Select TValue="int" SelectedValue="@selectedValue" SelectedValueChanged="@((int value) => OnSelectedValueChanged(value))">
+                    <Select TValue="int" SelectedValue="@selectedValue_TypKota" SelectedValueChanged="@((int value) => OnSelectedValueChanged(value, Select_Types.Typ_Kota))">
                         <SelectItem Value="1">-- Wybierz jedną opcję --</SelectItem>
                         <SelectItem Value="2">Mało ruchliwy/z nadwagą</SelectItem>
                         <SelectItem Value="3">Niewychodzący/sterylizowany</SelectItem>
@@ -38,7 +38,7 @@
         </tbody>
     </table>
     <p>waga_Kota @waga_Kota</p>
-    <p>selectedValue @selectedValue</p>
+    <p>selectedValue @selectedValue_TypKota</p>
     <p>kcalPerDay @kcalPerDay</p>
 </div>
 
@@ -209,6 +209,7 @@
 
 
 @code {
+
     private string waga_Kota;
 
     private double bialkoOgolne_Mokra;
@@ -223,22 +224,39 @@
     private double wloknoSurowe_Sucha;
     private double wilgotność_Sucha;
 
-    int selectedValue;
+    int selectedValue_TypKota;
     double kcalPerDay = 0;
 
 
-    Task OnSelectedValueChanged(int value)
+    Task OnSelectedValueChanged(int value, Select_Types select_Types)
     {
-        selectedValue = value;
-        UpdateKcalPerDay();
+        switch (select_Types)
+        {
+            case Select_Types.Typ_Kota:
+                {
+                    selectedValue_TypKota = value;
+                    UpdateKcalPerDay();
+                }
+                break;
+        }
+
 
         return Task.CompletedTask;
 
     }
-    Task OnNameChanged(string value)
+    Task OnNameChanged(string value, Input_Types inputs_Type)
     {
-        waga_Kota = value;
-        UpdateKcalPerDay();
+        switch (inputs_Type)
+        {
+            case Input_Types.Waga_Kota:
+                {
+                    waga_Kota = value;
+                    UpdateKcalPerDay();
+                }
+                break;
+
+        }
+
         return Task.CompletedTask;
     }
 
@@ -250,7 +268,7 @@
         }
         else
         {
-            switch (selectedValue)
+            switch (selectedValue_TypKota)
             {
                 case 2:
                     kcalPerDay = 60 * (Convert.ToDouble(waga_Kota) * 0.67);

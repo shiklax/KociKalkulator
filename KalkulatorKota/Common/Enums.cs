@@ -1,12 +1,13 @@
 ﻿namespace KalkulatorKota.Common
 {
-    public class Enums
+    enum Input_Types
     {
-        enum Inputs_Type 
-        {
-        
-        
-        
-        }
+        Waga_Kota,
+
+
+    }
+    enum Select_Types 
+    {
+        Typ_Kota,
     }
 }
